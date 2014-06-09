@@ -1,10 +1,14 @@
 Name: optics
-Version: 0.0.1
-Date: 2014-01-16
+Version: 0.1.0
+Date: 2014-06-09
 Author: Martin Vogel <octave@martin-vogel.info>
 Maintainer: Martin Vogel <octave@martin-vogel.info>
 Title: Optics
-Description: 
-Depends: 
-License: GPLv3+
+Description: Functions covering various aspects of optics
+Categories: physics
+Problems: none
 Url: http://octave.sf.net
+Depends: octave (>= 3.2)
+License: GPLv3+
+SystemRequirements: octave (>= 3.2)
+BuildRequires: octave (>= 3.2)

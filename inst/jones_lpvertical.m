@@ -39,7 +39,7 @@
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
-## @seealso{jones_lphorizontal
+## @seealso{jones_lphorizontal}
 ## @end deftypefn
 
 function V = jones_lpvertical(varargin)

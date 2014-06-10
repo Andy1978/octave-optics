@@ -10,5 +10,3 @@ Problems: none
 Url: http://octave.sf.net
 Depends: octave (>= 3.2)
 License: GPLv3+
-SystemRequirements: octave (>= 3.2)
-BuildRequires: octave (>= 3.2)

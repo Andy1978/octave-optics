@@ -1,3 +1,23 @@
+ Summary of important user-visible changes for optics 0.1.2 (2015/04/20):
+-------------------------------------------------------------------------
+
+ ** A group of functions to deal with Zernike polynomials have been implemented.
+    These are a sequence of polynomials orthogonal on the unit disk. They
+    are used, for example, to characterize distortions in optical systems.
+
+    zernike_cartesian
+    zernike_name
+    zernike_noll_to_mn
+    zernike_polar
+    zernike_R_poly
+  
+ ** Initial abcd matrix raytracing.
+    https://en.wikipedia.org/wiki/Ray_transfer_matrix_analysis
+
+    @abcd/abcd
+    @abcd/trace
+    
+
  Summary of important user-visible changes for optics 0.1.1 (2014/12/02):
 -------------------------------------------------------------------------
 

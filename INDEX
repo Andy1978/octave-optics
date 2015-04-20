@@ -45,3 +45,12 @@ stokes
  stokes_lpplus45
  stokes_lpvertical
  stokes_unpolarized
+ABCD matrix analysis
+ @abcd/abcd
+ @abcd/trace
+Zernike polynomials
+ zernike_cartesian
+ zernike_name
+ zernike_noll_to_mn
+ zernike_polar
+ zernike_R_poly

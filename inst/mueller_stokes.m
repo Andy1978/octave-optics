@@ -43,11 +43,10 @@
 ## @seealso{mueller_checkmueller}
 ## @end deftypefn
 
-function A = mueller_stokes(varargin)
+function A = mueller_stokes (varargin)
 
-  if nargin<1
+  if (nargin < 1)
     print_usage();
-    return;
   end
 
   A = varargin{1};
@@ -58,18 +57,16 @@ function A = mueller_stokes(varargin)
 
 end
 
-%!test
-%! % test without arguments
-%! A = mueller_stokes();
-%! assert(isempty(A));
-%!
+%% Test input validation
+%!error A = mueller_stokes();
+
 %!test
 %! % test singular argument, should just be returned
 %! M = mueller_waveplate(rand(1,1),'wav');
 %! MM = mueller_stokes(M);
 %! R = MM-M;
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % send light with horizontal linear polarization through a rotating
 %! % 1/2-waveplate and subsequent polarizer: final intensity should
@@ -82,7 +79,7 @@ end
 %! ilightout = stokes_intensity(lightout);
 %! R = ilightout-(cosd(angles.*2).^2);
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % this is a more thorough test: send light with horizontal linear
 %! % polarization through two rotating 1/2-waveplates (combining to
@@ -114,7 +111,7 @@ end
 %! % example 1: send light with horizontal linear polarization through 
 %! % a rotating, perfect halfwave plate and subsequent polarizer: 
 %! % final intensity should vary as cos(2*angle)^2.
-%!
+
 %!demo
 %! angles = 0:360;
 %! wps = mueller_rotate(mueller_waveplate(0.5, 'wav'), angles, 'deg');
@@ -135,7 +132,7 @@ end
 %! % a rotating, non-perfect halfwave plate and subsequent polarizer: 
 %! % final intensity should deviate from the perfect cos(2*angle)^2
 %! % curve, never reaching zero transmission
-%!
+
 %!demo
 %! angle = 0:360;
 %! delay = 0:0.05:1;

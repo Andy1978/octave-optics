@@ -15,8 +15,8 @@
 ## <http://www.gnu.org/licenses/>.
 
 ## -*- texinfo -*-
-## @deftypefn  {Function File} {@var{JM} =} jones_waveplate()
-## @deftypefnx {Function File} {@var{JM} =} jones_waveplate(@var{p})
+## @deftypefn  {Function File} {@var{JM} = } jones_waveplate ()
+## @deftypefnx {Function File} {@var{JM} = } jones_waveplate (@var{p})
 ## Return the Jones matrix for a linear wave plate with a phase 
 ## delay given in wavelength units and long axis rotation of 0 degrees. 
 ##
@@ -86,7 +86,7 @@ end
 %! A = jones_waveplate();
 %! R = A*A-A;
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % test serial application of absorptive elements
 %! delay = rand(1, 1);
@@ -94,7 +94,7 @@ end
 %! A2 = jones_waveplate(delay*2);
 %! R = A1*A1-A2;
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % another test of serial application of absorptive elements
 %! delay1 = rand(1, 1);
@@ -104,17 +104,17 @@ end
 %! A12 = jones_waveplate(delay1+delay2);
 %! R = A1*A2-A12;
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % test correct size of return values
 %! for dim = 1:5
 %!   asize = randi([1 4], 1, dim);
 %!   R = rand(asize);
 %!   if numel(R) == 1
-%!     R = {R};
+%!     R = {R}
 %!   end
 %!   rsize = size(R);
 %!   C = jones_waveplate(R);
 %!   csize = size(C);
-%!   assert(rsize == csize);
+%!   assert(csize, rsize);
 %! end

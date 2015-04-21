@@ -17,10 +17,10 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{M} =} jones(@var{M})
 ## @deftypefnx {Function File} {@var{A} =} jones(@var{M,N,...})
-## Multiply Jones matrices and vectors. 
+## Multiply Jones matrices and vectors.
 ##
 ## @itemize @minus
-## @item @var{M,N,...} define Jones matrices or 
+## @item @var{M,N,...} define Jones matrices or
 ## vectors. The function will multiply these from left to right and
 ## return the result.
 ## @end itemize
@@ -32,44 +32,41 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
 ## @seealso{}
 ## @end deftypefn
 
-function A = jones(varargin)
+function A = jones (varargin)
 
-  if nargin<1
+  if (nargin < 1)
     print_usage();
-    return;
   end
 
   A = varargin{1};
 
-  for vi=2:nargin
-    A = __cellfunc__(@(M1,M2)(M1*M2), A, varargin{vi});
+  for vi = 2:nargin
+    A = __cellfunc__ (@(M1,M2)(M1*M2), A, varargin{vi});
   end
 
 end
 
-%!test
-%! % test without arguments
-%! A = jones();
-%! assert(isempty(A));
-%!
+%% Test input validation
+%!error A = jones();
+
 %!test
 %! % test singular argument, should just be returned
 %! M = jones_waveplate(rand(1,1),'wav');
 %! MM = jones(M);
 %! R = MM-M;
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % send light with horizontal linear polarization through a rotating
 %! % 1/2-waveplate and subsequent polarizer: final intensity should
@@ -82,7 +79,7 @@ end
 %! ilightout = jones_intensity(lightout);
 %! R = ilightout-(cosd(angles.*2).^2);
 %! assert(norm(R,inf), 0, 1e-9);
-%!
+
 %!test
 %! % this is a more thorough test: send light with horizontal linear
 %! % polarization through two rotating 1/2-waveplates (combining to
@@ -111,10 +108,10 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend('transmitted intensity');
 %! % -----------------------------------------------------------------
-%! % example 1: send light with horizontal linear polarization through 
-%! % a rotating, perfect halfwave plate and subsequent polarizer: 
+%! % example 1: send light with horizontal linear polarization through
+%! % a rotating, perfect halfwave plate and subsequent polarizer:
 %! % final intensity should vary as cos(2*angle)^2.
-%!
+
 %!demo
 %! angles = 0:360;
 %! wps = jones_rotate(jones_waveplate(0.5, 'wav'), angles, 'deg');
@@ -131,11 +128,11 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend('perfect (0.5-)plate', 'non-perfect (0.45-)plate');
 %! % -----------------------------------------------------------------
-%! % example 2: send light with horizontal linear polarization through 
-%! % a rotating, non-perfect halfwave plate and subsequent polarizer: 
+%! % example 2: send light with horizontal linear polarization through
+%! % a rotating, non-perfect halfwave plate and subsequent polarizer:
 %! % final intensity should deviate from the perfect cos(2*angle)^2
 %! % curve, never reaching zero transmission
-%!
+
 %!demo
 %! angle = 0:360;
 %! delay = 0:0.05:1;
@@ -154,5 +151,5 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend(cellfun(@(x)sprintf('delay=%.2f',x),num2cell(delay),'UniformOutput',false));
 %! % -----------------------------------------------------------------
-%! % example 3: send light with horizontal linear polarization through 
+%! % example 3: send light with horizontal linear polarization through
 %! % rotating waveplates with increasing delay  and subsequent polarizer

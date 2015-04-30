@@ -18,7 +18,7 @@
 ## @deftypefn  {Function File} {@var{JM} =} jones_mirror()
 ## @deftypefnx {Function File} {@var{JA} =} jones_mirror(@var{[m, n, ...]})
 ## @deftypefnx {Function File} {@var{JA} =} jones_mirror(@var{C})
-## Return Jones matrices, representing a non-polarizing 
+## Return Jones matrices, representing a non-polarizing
 ## optical element.
 ##
 ## @itemize @minus
@@ -32,11 +32,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@
 function JM = jones_mirror(varargin)
 
   retcell = true;
-  if nargin<1 
+  if nargin<1
     sc = [1,1];
     retcell = false;
   elseif isnumeric(varargin{1})
@@ -54,29 +54,29 @@ function JM = jones_mirror(varargin)
   else
     sc = size(varargin{1});
   end
-  
+
   if prod(sc) > 1 || retcell
-    
+
     JM = cell(sc);
     [JM{:}] = deal(s_mirror());
-    
+
   else
 
     JM = s_mirror();
 
   end
-  
+
 end
 
 % helper function
 function JM = s_mirror()
-	 
+
   JM = zeros(2,2);
   JM(1,1) = -1;
   JM(2,2) = -1;
 
 end
-  
+
 %!test
 %! % test mirror that is its own inverted element
 %! A = jones_mirror();

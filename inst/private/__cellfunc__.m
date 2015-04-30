@@ -28,7 +28,7 @@ function A = __cellfunc__(varargin)
     A = fh;
     return;
   end
-  
+
   % are there additional parameters?
   if nargin == 1
     A = fh();
@@ -68,7 +68,7 @@ function A = __cellfunc__(varargin)
   A_subs = cell(1,ndims(A));
   numelA = numel(A);
   for ai=1:numelA
-      
+
     % collect specific parameters for current output cell
     b = cell(1, margin);
     for mi=1:margin
@@ -80,7 +80,7 @@ function A = __cellfunc__(varargin)
     [A_subs{:}] = ind2sub(Asize,ai);
     A{A_subs{:}} = fh(b{:});
   end
-  
+
   if ~returncellarray
     A = A{1};
   end

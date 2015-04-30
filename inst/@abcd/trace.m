@@ -149,7 +149,7 @@ endfunction
 %!
 %! rin = [1 0.5 0 -0.5 -1; 0 0 0 0 0];
 %! rout = trace(s, rin, true)
-%~ 
+%~
 %!demo
 %! s = abcd ("propagation", 2,
 %!           "flat-refraction", [1, 1.4],

@@ -63,7 +63,7 @@ endfunction
 %! assert (ret, [1 r*cos(phi) r*sin(phi) 2*r^2-1], 5*eps)
 
 %!test
-%! r   = [0.5 0.8]; 
+%! r   = [0.5 0.8];
 %! phi = [pi/4 pi/4];
 %! n   = 4;
 %! ret = zernike_polar (r, phi, n);

@@ -17,7 +17,7 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{t} =} mueller_ismueller(@var{M})
 ## @deftypefnx {Function File} {@var{[t,u,...]} =} mueller_ismueller(@var{M,N,...})
-## Check computational validity of Mueller matrix or matrices. 
+## Check computational validity of Mueller matrix or matrices.
 ##
 ## @itemize @minus
 ## @item @var{M,N,...} define potential (arrays of) Mueller matrices.
@@ -34,11 +34,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -54,7 +54,7 @@ function varargout = mueller_ismueller(varargin)
 
   % loop over parameters
   for vi=1:nargin
-      
+
     M = varargin{vi};
     if iscell(M)
       ismueller = false(size(M));
@@ -66,7 +66,7 @@ function varargout = mueller_ismueller(varargin)
     else
       ismueller = s_ismueller(M);
     end
-    
+
     varargout{vi} = ismueller;
 
   end
@@ -74,7 +74,7 @@ function varargout = mueller_ismueller(varargin)
 end
 
 % helper function
-function isMueller = s_ismueller(M)    
+function isMueller = s_ismueller(M)
   if ~isnumeric(M)
     isMueller = false;
   elseif ~all(size(M)==[4,4])
@@ -110,7 +110,7 @@ end
 %! A2{1,1,1} = 0;
 %! t1 = mueller_ismueller(A1);
 %! t2 = mueller_ismueller(A2);
-%! assert((size(A1)==size(t1)) && (size(A2)==size(t2))); 
+%! assert((size(A1)==size(t1)) && (size(A2)==size(t2)));
 %!
 %!test
 %! % test indivial elements of return value
@@ -120,6 +120,6 @@ end
 %! A2{1,1,1} = 0;
 %! t1 = mueller_ismueller(A1);
 %! t2 = mueller_ismueller(A2);
-%! assert(t1(1,1,1) && ~t1(2,2,2) && ~t2(1,1,1) && t2(2,2,2)); 
+%! assert(t1(1,1,1) && ~t1(2,2,2) && ~t2(1,1,1) && t2(2,2,2));
 
 

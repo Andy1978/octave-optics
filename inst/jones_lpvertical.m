@@ -17,7 +17,7 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{V} =} jones_lpvertical()
 ## @deftypefnx {Function File} {@var{V} =} jones_lpvertical(@var{p})
-## Return the Jones vector for vertical linearly polarized light. 
+## Return the Jones vector for vertical linearly polarized light.
 ##
 ## @itemize @minus
 ## @item @var{p} is the amplitude of the electric field,
@@ -25,17 +25,17 @@
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{V} of 
+## cell array. In the two latter cases, a cell array @var{V} of
 ## Jones vectors of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@ function V = jones_lpvertical(varargin)
 
   amplitude_defv = 1;
 
-  if nargin<1 
+  if nargin<1
     amplitude = amplitude_defv;
   else
     amplitude = varargin{1};
@@ -55,14 +55,14 @@ function V = jones_lpvertical(varargin)
   [amplitude, was_cell] = __c2n__(amplitude, amplitude_defv);
 
   if (numel(amplitude) > 1) || was_cell
-     
+
     V = cell(size(amplitude));
     V_subs = cell(1,ndims(V));
     for Vi=1:numel(V)
       [V_subs{:}] = ind2sub(size(V),Vi);
       V{V_subs{:}} = s_lpvertical(amplitude(V_subs{:}));
     end
-    
+
   else
 
     V = s_lpvertical(amplitude);
@@ -75,7 +75,7 @@ end
 function V = s_lpvertical(amplitude)
 
   V = [0; amplitude];
-  
+
 end
 
 %!test

@@ -19,10 +19,10 @@
 ## @deftypefnx {Function File} {@var{JM} =} jones_linretarder(@var{p})
 ## @deftypefnx {Function File} {@var{JM} =} jones_linretarder(..., @var{mode})
 ## Return the Jones matrix for a linear retarder with long axis
-## rotation of 0 degrees. 
+## rotation of 0 degrees.
 ##
 ## @itemize @minus
-## @item @var{p} is the phase delay in radiant units, i.e. @var{p} is 
+## @item @var{p} is the phase delay in radiant units, i.e. @var{p} is
 ## ranging between 0 and 2*pi(). If not given or set to [] the default
 ## value 0 is used.
 ## @item @var{mode} is a string defining the units for the phase
@@ -31,17 +31,17 @@
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{JM} of 
+## cell array. In the two latter cases, a cell array @var{JM} of
 ## Jones matrices of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -52,7 +52,7 @@ function JM = jones_linretarder(varargin)
 
   phase_defv = 0;
 
-  if nargin<1 
+  if nargin<1
     phase = phase_defv;
   else
     phase = varargin{1};
@@ -67,16 +67,16 @@ function JM = jones_linretarder(varargin)
       phase = phase*2*pi();
     end
   end
-  
+
   if (numel(phase) > 1) || was_cell
-     
+
     JM = cell(size(phase));
     JM_subs = cell(1,ndims(JM));
     for jmi=1:numel(JM)
       [JM_subs{:}] = ind2sub(size(JM),jmi);
       JM{JM_subs{:}} = s_linretarder(phase(JM_subs{:}));
     end
-    
+
   else
 
     JM = s_linretarder(phase);

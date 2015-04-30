@@ -17,8 +17,8 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{JM} = } jones_waveplate ()
 ## @deftypefnx {Function File} {@var{JM} = } jones_waveplate (@var{p})
-## Return the Jones matrix for a linear wave plate with a phase 
-## delay given in wavelength units and long axis rotation of 0 degrees. 
+## Return the Jones matrix for a linear wave plate with a phase
+## delay given in wavelength units and long axis rotation of 0 degrees.
 ##
 ## @itemize @minus
 ## @item @var{p} is the phase delay in wavelength units, ranging from
@@ -26,17 +26,17 @@
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{JM} of 
+## cell array. In the two latter cases, a cell array @var{JM} of
 ## Jones matrices of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 14, 2013.
 ## @end enumerate
 ##
@@ -47,7 +47,7 @@ function JM = jones_waveplate(varargin)
 
   pilu_defv = 0;
 
-  if nargin<1 
+  if nargin<1
     phase_in_lambda_units = pilu_defv;
   else
     phase_in_lambda_units = varargin{1};
@@ -56,18 +56,18 @@ function JM = jones_waveplate(varargin)
   [phase_in_lambda_units, was_cell] = __c2n__(phase_in_lambda_units, pilu_defv);
 
   if (numel(phase_in_lambda_units) > 1 || was_cell)
-     
+
     JM = cell(size(phase_in_lambda_units));
     JM_subs = cell(1,ndims(JM));
     for jmi=1:numel(JM)
       [JM_subs{:}] = ind2sub(size(JM),jmi);
       JM{JM_subs{:}} = s_waveplate(phase_in_lambda_units(JM_subs{:}));
     end
-    
+
   else
 
     JM = s_waveplate(phase_in_lambda_units);
-    
+
   end
 
 end

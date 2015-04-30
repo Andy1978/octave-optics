@@ -28,23 +28,23 @@
 ## is @code{(1-d)/(1+d)}, if transmission in x direction is 1.
 ## @item @var{pl} is the transmittance in x direction.
 ## @item @var{pr} is the transmittance in y direction.
-## @item @var{mode} is a string defining the interpretation of 
-## transmittance values: 'intensity' (default) or 'amplitude'. 
+## @item @var{mode} is a string defining the interpretation of
+## transmittance values: 'intensity' (default) or 'amplitude'.
 ## @end itemize
 ##
 ## Arguments @var{d}, @var{pl} or @var{pr} can be passed as a scalar
-## or as a matrix or as a cell array. In the two latter cases, a cell 
+## or as a matrix or as a cell array. In the two latter cases, a cell
 ## array @var{M} of Mueller matrices is returned. The size of @var{M}
 ## is set to the maximum of the parameters' size.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -53,7 +53,7 @@
 
 function M = mueller_circdiattenuator(varargin)
 
-  if nargin<1 
+  if nargin<1
 
     pr = 1;
     pl = 1;
@@ -65,7 +65,7 @@ function M = mueller_circdiattenuator(varargin)
     [pr, was_cell] = __c2n__(pr, 0);
     pl = (1-pr)./(1+pr);
     pr(:) = 1;
-    
+
   else
 
     pr = varargin{1};
@@ -73,12 +73,12 @@ function M = mueller_circdiattenuator(varargin)
 
     pl = varargin{2};
     [pl, was_celll] = __c2n__(pl, 1);
-    
+
     was_cell = was_cellr || was_celll;
 
   end
 
-  % check mode    
+  % check mode
   s_function = @s_circdiattenuator_int;
   if nargin>=2 && ischar(varargin{end})
     if strncmpi(varargin{end},'amp',3)
@@ -88,11 +88,11 @@ function M = mueller_circdiattenuator(varargin)
 
   % any matrix in parameters?
   if (any([numel(pr),numel(pl)] > 1)) || was_cell
-     
+
     % adjust dimensions, i.e. fill missing dimensions with 1
     spr = size(pr);
     spl = size(pl);
-    
+
     maxdim = max([length(spr),length(spl)]);
     if length(spr) < maxdim
       spr = [spr, ones(1,maxdim-length(spr))];
@@ -106,7 +106,7 @@ function M = mueller_circdiattenuator(varargin)
     M = cell(maxsize);
     M_subs = cell(1,ndims(M));
     numelM = numel(M);
-    
+
     % flatten parameter arrays
     pr = pr(:);
     pl = pl(:);
@@ -117,7 +117,7 @@ function M = mueller_circdiattenuator(varargin)
       [M_subs{:}] = ind2sub(size(M),mi);
       M{M_subs{:}} = s_function(pr(mod(mi-1,numelpr)+1), pl(mod(mi-1,numelpl)+1));
     end
-    
+
   else
 
     M = s_function(pr, pl);

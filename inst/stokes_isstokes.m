@@ -17,7 +17,7 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{t} =} stokes_isstokes(@var{V})
 ## @deftypefnx {Function File} {@var{[t,u,...]} =} stokes_isstokes(@var{V,W,...})
-## Check validity of Stokes vector or vectors. 
+## Check validity of Stokes vector or vectors.
 ##
 ## @itemize @minus
 ## @item @var{V,W,...} define potential (arrays of) Stokes vectors.
@@ -31,11 +31,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"}, 
+## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -51,7 +51,7 @@ function varargout = stokes_isstokes(varargin)
 
   % loop over parameters
   for ni=1:nargin
-      
+
     V = varargin{ni};
     if iscell(V)
       isstokes = false(size(V));
@@ -63,7 +63,7 @@ function varargout = stokes_isstokes(varargin)
     else
       isstokes = s_isstokes(V);
     end
-    
+
     varargout{ni} = isstokes;
 
   end
@@ -71,7 +71,7 @@ function varargout = stokes_isstokes(varargin)
 end
 
 % helper function
-function isstokes = s_isstokes(V)    
+function isstokes = s_isstokes(V)
 
   if ~isnumeric(V)
     isstokes = false;
@@ -108,14 +108,14 @@ end
 %! V2{1,1,1} = 0;
 %! t1 = stokes_isstokes(V1);
 %! t2 = stokes_isstokes(V2);
-%! assert((size(t1)==size(V1)) && (size(t2)==size(V2))); 
+%! assert((size(t1)==size(V1)) && (size(t2)==size(V2)));
 %!
 %!test
 %! % test size of return value
 %! V1 = stokes_unpolarized(ones(2,3,4));
 %! V2 = stokes_unpolarized(1);
 %! [t1,t2] = stokes_isstokes(V1,V2);
-%! assert((size(t1)==size(V1)) && (size(t2)==[1,1])); 
+%! assert((size(t1)==size(V1)) && (size(t2)==[1,1]));
 %!
 %!test
 %! % test indivial elements of return value
@@ -125,5 +125,5 @@ end
 %! V2{1,1,1} = 0;
 %! t1 = stokes_isstokes(V1);
 %! t2 = stokes_isstokes(V2);
-%! assert(t1(1,1,1) && ~t1(2,2,2) && ~t2(1,1,1) && t2(2,2,2)); 
+%! assert(t1(1,1,1) && ~t1(2,2,2) && ~t2(1,1,1) && t2(2,2,2));
 

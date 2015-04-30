@@ -26,13 +26,13 @@
 ## @item @var{d} is the diattenuation value (default: 0).
 ## @item @var{azimuth} and @var{ellipticity} (default: 0) describe the
 ##       two orthogonal polarization eigenstates.
-## @item @var{azimuthmode} is a string defining the interpretation of 
+## @item @var{azimuthmode} is a string defining the interpretation of
 ##       the azimuth angle: 'radiants' (default) or 'degree'.
 ## @end itemize
 ##
 ## Arguments @var{t0}, @var{d}, @var{azimuth}, or
 ## @var{ellipticity} can be passed as a scalar
-## or as a matrix or as a cell array. In the two latter cases, a cell 
+## or as a matrix or as a cell array. In the two latter cases, a cell
 ## array @var{M} of Mueller matrices is returned. The size of @var{M}
 ## is given by @code{max(size(t0),size(d),size(azimuth),size(ellipticity))}
 ## and elements of smaller matrices of @var{t0}, @var{d},
@@ -41,11 +41,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @item Boulvert et al., "Decomposition algorithm of an experimental
 ##       Mueller matrix", Opt.Comm. 282(2009):692-704
@@ -57,7 +57,7 @@
 function M = mueller_homogeneous_elliptic_diattenuator(varargin)
 
   % TODO: check ref [3] in [4] for decomposition in homogeneous elliptic
-  % retarder und retarder 
+  % retarder und retarder
 
   switch(nargin)
     case 0
@@ -118,7 +118,7 @@ function M = mueller_homogeneous_elliptic_diattenuator(varargin)
     sd = size(d);
     sazimuth = size(azimuth);
     sellipticity = size(ellipticity);
-    
+
     maxdim = max([length(st0),length(sd),length(sazimuth),length(sellipticity)]);
     if length(st0) < maxdim
       st0 = [st0, ones(1,maxdim-length(st0))];
@@ -132,13 +132,13 @@ function M = mueller_homogeneous_elliptic_diattenuator(varargin)
     if length(sellipticity) < maxdim
       sellipticity = [sellipticity, ones(1,maxdim-length(sellipticity))];
     end
-    
+
     % generate Mueller matrices
     maxsize = max([st0;sd;sazimuth;sellipticity]);
     M = cell(maxsize);
     M_subs = cell(1,ndims(M));
     numelM = numel(M);
-    
+
     % flatten parameter arrays
     t0 = t0(:);
     d = d(:);
@@ -148,7 +148,7 @@ function M = mueller_homogeneous_elliptic_diattenuator(varargin)
     numeld = numel(d);
     numelazimuth = numel(azimuth);
     numelellipticity = numel(ellipticity);
-    
+
     for mi=1:numelM
       [M_subs{:}] = ind2sub(size(M),mi);
       M{M_subs{:}} = s_homogenenous_elliptic_diattenuator(t0(mod(mi-1,numelt0)+1),...
@@ -156,12 +156,12 @@ function M = mueller_homogeneous_elliptic_diattenuator(varargin)
 							  azimuth(mod(mi-1,numelazimuth)+1), ...
 							  ellipticity(mod(mi-1,numelellipticity)+1));
     end
-    
+
   else
 
     % generate Mueller matrix
     M = s_homogenenous_elliptic_diattenuator(t0,d,azimuth,ellipticity);
-    
+
   end
 
 end

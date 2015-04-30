@@ -17,7 +17,7 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{V} =} stokes_lpplus45()
 ## @deftypefnx {Function File} {@var{V} =} stokes_lpplus45(@var{p})
-## Return the Stokes vector for light with linear polarization at +45 degrees. 
+## Return the Stokes vector for light with linear polarization at +45 degrees.
 ##
 ## @itemize @minus
 ## @item @var{p} is the intensity of the light,
@@ -25,17 +25,17 @@
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{V} of 
+## cell array. In the two latter cases, a cell array @var{V} of
 ## Stokes vectors of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"}, 
+## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@ function V = stokes_lpplus45(varargin)
 
   intensity_defv = 1;
 
-  if nargin<1 
+  if nargin<1
     intensity = intensity_defv;
   else
     intensity = varargin{1};
@@ -55,14 +55,14 @@ function V = stokes_lpplus45(varargin)
   [intensity, was_cell] = __c2n__(intensity, intensity_defv);
 
   if (numel(intensity) > 1) || was_cell
-     
+
     V = cell(size(intensity));
     V_subs = cell(1,ndims(V));
     for Vi=1:numel(V)
       [V_subs{:}] = ind2sub(size(V),Vi);
       V{V_subs{:}} = s_lpplus45(intensity(V_subs{:}));
     end
-    
+
   else
 
     V = s_lpplus45(intensity);

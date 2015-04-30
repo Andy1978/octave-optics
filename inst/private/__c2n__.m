@@ -14,22 +14,22 @@
 ## along with this program; see the file COPYING.  If not, see
 ## <http://www.gnu.org/licenses/>.
 
-function [array, was_cell] = __c2n__(array, defaultvalue)
+function [array, was_cell] = __c2n__ (array, defaultvalue)
 
   % if possible, convert cell array to numeric array, else return an
   % array of default values of same size
 
   was_cell = false;
-  if ~isnumeric(array)
-    if iscell(array)
+  if ~isnumeric (array)
+    if iscell (array)
       was_cell = true;
-      array2 = cell2mat(array);
-      if (ndims(array2)==ndims(array)) && ...
-	 all(size(array2)==size(array)) && ...
-	 isnumeric(array2)
-	array = array2;
+      array2 = cell2mat (array);
+      if (ndims (array2) == ndims (array)) && ...
+          all (size (array2) == size (array)) && ...
+          isnumeric (array2)
+        array = array2;
       else
-	array = ones(size(array))*defaultvalue;
+        array = ones (size (array)) * defaultvalue;
       end
     else
       array(:) = defaultvalue;

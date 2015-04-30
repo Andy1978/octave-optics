@@ -18,7 +18,7 @@
 ## @deftypefn  {Function File} {@var{M} =} mueller_mirror()
 ## @deftypefnx {Function File} {@var{A} =} mueller_mirror(@var{[m, n, ...]})
 ## @deftypefnx {Function File} {@var{A} =} mueller_mirror(@var{C})
-## Return mirror Mueller matrices, representing a non-polarizing 
+## Return mirror Mueller matrices, representing a non-polarizing
 ## optical element.
 ##
 ## @itemize @minus
@@ -32,11 +32,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@
 function M = mueller_mirror(varargin)
 
   retcell = true;
-  if nargin<1 
+  if nargin<1
     sc = [1,1];
     retcell = false;
   elseif isnumeric(varargin{1})
@@ -54,23 +54,23 @@ function M = mueller_mirror(varargin)
   else
     sc = size(varargin{1});
   end
-  
+
   if prod(sc) > 1 || retcell
-    
+
     M = cell(sc);
     [M{:}] = deal(s_mirror());
-    
+
   else
 
     M = s_mirror();
 
   end
-  
+
 end
 
 % helper function
 function M = s_mirror()
-	 
+
   M = zeros(4,4);
   M(1,1) = 1;
   M(2,2) = 1;
@@ -78,7 +78,7 @@ function M = s_mirror()
   M(4,4) = -1;
 
 end
-  
+
 %!test
 %! % test mirror that is its own inverted element
 %! A = mueller_mirror();

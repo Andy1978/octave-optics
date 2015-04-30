@@ -17,7 +17,7 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{M} =} mueller_stokes(@var{M})
 ## @deftypefnx {Function File} {@var{A} =} mueller_stokes(@var{M,N,...})
-## Multiply Mueller matrices and Stokes vectors. 
+## Multiply Mueller matrices and Stokes vectors.
 ##
 ## @itemize @minus
 ## @item @var{M,N,...} define Mueller matrices or Stokes
@@ -32,11 +32,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -108,8 +108,8 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend('transmitted intensity');
 %! % -----------------------------------------------------------------
-%! % example 1: send light with horizontal linear polarization through 
-%! % a rotating, perfect halfwave plate and subsequent polarizer: 
+%! % example 1: send light with horizontal linear polarization through
+%! % a rotating, perfect halfwave plate and subsequent polarizer:
 %! % final intensity should vary as cos(2*angle)^2.
 
 %!demo
@@ -128,8 +128,8 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend('perfect (0.5-)plate', 'non-perfect (0.45-)plate');
 %! % -----------------------------------------------------------------
-%! % example 2: send light with horizontal linear polarization through 
-%! % a rotating, non-perfect halfwave plate and subsequent polarizer: 
+%! % example 2: send light with horizontal linear polarization through
+%! % a rotating, non-perfect halfwave plate and subsequent polarizer:
 %! % final intensity should deviate from the perfect cos(2*angle)^2
 %! % curve, never reaching zero transmission
 
@@ -151,6 +151,6 @@ end
 %! ylabel('intensity [a.u.]');
 %! legend(cellfun(@(x)sprintf('delay=%.2f',x),num2cell(delay),'UniformOutput',false));
 %! % -----------------------------------------------------------------
-%! % example 3: send light with horizontal linear polarization through 
-%! % rotating waveplates with increasing delay and subsequent polarizer 
+%! % example 3: send light with horizontal linear polarization through
+%! % rotating waveplates with increasing delay and subsequent polarizer
 

@@ -17,11 +17,11 @@
 ## -*- texinfo -*-
 ## @deftypefn  {Function File} {@var{P} =} stokes_intensity(@var{V})
 ## @deftypefnx {Function File} {@var{[P,Q,...]} =} stokes_intensity(@var{V,W,...})
-## Return intensity of light described by Stokes vectors. 
+## Return intensity of light described by Stokes vectors.
 ##
 ## @itemize @minus
 ## @item @var{V,W,...} define (arrays of) Stokes vectors.
-## The function returns their intensity values as numeric arrays 
+## The function returns their intensity values as numeric arrays
 ## @var{P,Q,...} of corresponding size.
 ## @end itemize
 ##
@@ -31,11 +31,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"}, 
+## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -51,7 +51,7 @@ function varargout = stokes_intensity(varargin)
 
   % loop over parameters
   for ni=1:nargin
-      
+
     V = varargin{ni};
     if iscell(V)
       intensity = zeros(size(V));
@@ -63,7 +63,7 @@ function varargout = stokes_intensity(varargin)
     else
       intensity = s_intensity(V);
     end
-    
+
     varargout{ni} = intensity;
 
   end
@@ -85,7 +85,7 @@ end
 %! V2 = stokes_unpolarized(r2);
 %! i1 = stokes_intensity(V1);
 %! i2 = stokes_intensity(V2);
-%! assert(all(i1==r1) && all(i2==r2)); 
+%! assert(all(i1==r1) && all(i2==r2));
 %!
 %!test
 %! % test size and value of return values
@@ -94,4 +94,4 @@ end
 %! r2 = rand(1,1);
 %! V2 = stokes_unpolarized(r2);
 %! [i1,i2] = stokes_intensity(V1,V2);
-%! assert(all(i1==r1) && all(i2==r2)); 
+%! assert(all(i1==r1) && all(i2==r2));

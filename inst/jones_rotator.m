@@ -18,27 +18,27 @@
 ## @deftypefn  {Function File} {@var{JM} =} jones_rotator()
 ## @deftypefnx {Function File} {@var{JM} =} jones_rotator(@var{p})
 ## @deftypefnx {Function File} {@var{JM} =} jones_rotator(..., @var{mode})
-## Return the Jones matrix for a system rotator. 
+## Return the Jones matrix for a system rotator.
 ##
 ## @itemize @minus
 ## @item @var{p} is the rotation angle, ranging from 0 to 2*pi,
 ## if not given or set to [] the default value 0 is used.
-## @item @var{mode} is a string defining the units for the angle: 
+## @item @var{mode} is a string defining the units for the angle:
 ## 'radiant' (default) or 'degree' (0..360)
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{JM} of 
+## cell array. In the two latter cases, a cell array @var{JM} of
 ## Jones matrices of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -47,9 +47,9 @@
 
 function JM = jones_rotator(varargin)
 
-  angle_defv = 0; 
+  angle_defv = 0;
 
-  if nargin<1 
+  if nargin<1
     angle = angle_defv;
   else
     angle = varargin{1};
@@ -64,14 +64,14 @@ function JM = jones_rotator(varargin)
   end
 
   if (numel(angle) > 1) || was_cell
-     
+
     JM = cell(size(angle));
     JM_subs = cell(1,ndims(JM));
     for jmi=1:numel(JM)
       [JM_subs{:}] = ind2sub(size(JM),jmi);
       JM{JM_subs{:}} = s_rotator(angle(JM_subs{:}));
     end
-    
+
   else
 
     JM = s_rotator(angle);

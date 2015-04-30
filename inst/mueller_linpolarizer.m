@@ -31,11 +31,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -45,7 +45,7 @@
 function M = mueller_linpolarizer(varargin)
 
   retcell = true;
-  if nargin<1 
+  if nargin<1
     sc = [1,1];
     retcell = false;
   elseif isnumeric(varargin{1})
@@ -53,12 +53,12 @@ function M = mueller_linpolarizer(varargin)
   else
     sc = size(varargin{1});
   end
-  
+
   if prod(sc) > 1 || retcell
 
     M = cell(sc);
     [M{:}] = deal(s_linpolarizer());
-    
+
   else
 
     M = s_linpolarizer();

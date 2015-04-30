@@ -32,17 +32,17 @@
 ## array. Argument @var{p} can be passed as a numeric scalar or as a
 ## cell array. In the case of at least one cell array provided,
 ## a cell array @var{M} of Jones matrices is returned. The size of
-## @var{M} in each dimension is set to the maximum of the size of 
+## @var{M} in each dimension is set to the maximum of the size of
 ## the passed cell arrays.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -73,11 +73,11 @@ function JM = jones_rotate(varargin)
   end
 
   if iscell(C) || (numel(angle) > 1) || angle_was_cell
-     
+
     if ~iscell(C)
       C = {C};
     end
-    
+
     % adjust dimensions, i.e. fill missing dimensions with 1
     sizeC = size(C);
     sizeangle = size(angle);
@@ -88,26 +88,26 @@ function JM = jones_rotate(varargin)
     if length(sizeangle) < maxdim
       sizeangle = [sizeangle, ones(1,maxdim-length(sizeangle))];
     end
-    
+
     % generate Jones matrices
     maxsize = max([sizeC;sizeangle]);
     JM = cell(maxsize);
     JM_subs = cell(1,ndims(JM));
     numelJM = numel(JM);
-    
+
     % flatten C and angle arrays
     C = C(:);
     angle = angle(:);
     numelC = numel(C);
     numelangle = numel(angle);
-    
+
     for jmi=1:numelJM
       [JM_subs{:}] = ind2sub(size(JM),jmi);
       JM{JM_subs{:}} = s_rotate(C{mod(jmi-1,numelC)+1}, angle(mod(jmi-1,numelangle)+1));
     end
-    
+
   else
-      
+
     JM = s_rotate(C, angle(1));
 
   end
@@ -116,7 +116,7 @@ end
 
 % helper function
 function JM = s_rotate(JM, angle_in_radiants)
-  
+
   JM = s_rotator(-angle_in_radiants)*JM*s_rotator(angle_in_radiants);
 
 end

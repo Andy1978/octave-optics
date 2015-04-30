@@ -18,7 +18,7 @@
 ## @deftypefn  {Function File} {@var{M} =} mueller_unity()
 ## @deftypefnx {Function File} {@var{A} =} mueller_unity(@var{[m, n, ...]})
 ## @deftypefnx {Function File} {@var{A} =} mueller_unity(@var{C})
-## Return unity Mueller matrices, representing a non-polarizing 
+## Return unity Mueller matrices, representing a non-polarizing
 ## optical element.
 ##
 ## @itemize @minus
@@ -32,11 +32,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@
 function M = mueller_unity(varargin)
 
   retcell = true;
-  if nargin<1 
+  if nargin<1
     sc = [1,1];
     retcell = false;
   elseif isnumeric(varargin{1})
@@ -54,27 +54,27 @@ function M = mueller_unity(varargin)
   else
     sc = size(varargin{1});
   end
-  
+
   if prod(sc) > 1 || retcell
-    
+
     M = cell(sc);
     [M{:}] = deal(s_unity());
-    
+
   else
 
     M = s_unity();
 
   end
-  
+
 end
 
 % helper function
 function M = s_unity()
-	 
+
   M = eye(4);
 
 end
-  
+
 %!test
 %! A = mueller_unity();
 %! R = A*A-A;

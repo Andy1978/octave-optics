@@ -25,17 +25,17 @@
 ## @end itemize
 ##
 ## Argument @var{p} can be passed as a scalar or as a matrix or as a
-## cell array. In the two latter cases, a cell array @var{M} of 
+## cell array. In the two latter cases, a cell array @var{M} of
 ## Mueller matrices of the same size is returned.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -46,7 +46,7 @@ function M = mueller_absorber(varargin)
 
   absorption_defv = 0;
 
-  if nargin<1 
+  if nargin<1
     absorption = absorption_defv;
   else
     absorption = varargin{1};
@@ -55,14 +55,14 @@ function M = mueller_absorber(varargin)
   [absorption, was_cell] = __c2n__(absorption, absorption_defv);
 
   if (numel(absorption) > 1) || was_cell
-     
+
     M = cell(size(absorption));
     M_subs = cell(1,ndims(M));
     for mi=1:numel(M)
       [M_subs{:}] = ind2sub(size(M),mi);
       M{M_subs{:}} = s_absorber(absorption(M_subs{:}));
     end
-    
+
   else
 
     M = s_absorber(absorption);

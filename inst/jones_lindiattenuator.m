@@ -28,23 +28,23 @@
 ## is @code{(1-d)/(1+d)}, if transmission in x direction is 1.
 ## @item @var{px} is the transmittance in x direction.
 ## @item @var{py} is the transmittance in y direction.
-## @item @var{mode} is a string defining the interpretation of 
-## transmittance values: 'intensity' (default) or 'amplitude'. 
+## @item @var{mode} is a string defining the interpretation of
+## transmittance values: 'intensity' (default) or 'amplitude'.
 ## @end itemize
 ##
 ## Arguments @var{d}, @var{px} or @var{py} can be passed as a scalar
-## or as a matrix or as a cell array. In the two latter cases, a cell 
+## or as a matrix or as a cell array. In the two latter cases, a cell
 ## array @var{M} of Jones matrices is returned. The size of @var{M}
 ## is set to the maximum of the parameters' size.
 ##
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Jones_calculus, "Jones calculus"},
 ##       last retrieved on Jan 13, 2014.
 ## @end enumerate
 ##
@@ -53,7 +53,7 @@
 
 function JM = jones_lindiattenuator(varargin)
 
-  if nargin<1 
+  if nargin<1
 
     px = 1;
     py = 1;
@@ -65,7 +65,7 @@ function JM = jones_lindiattenuator(varargin)
     [px, was_cell] = __c2n__(px, 0);
     py = (1-px)./(1+px);
     px(:) = 1;
-    
+
   else
 
     px = varargin{1};
@@ -78,7 +78,7 @@ function JM = jones_lindiattenuator(varargin)
 
   end
 
-  % check mode    
+  % check mode
   s_function = @s_lindiattenuator_int;
   if nargin>=2 && ischar(varargin{end})
     if strncmpi(varargin{end},'amp',3)
@@ -88,11 +88,11 @@ function JM = jones_lindiattenuator(varargin)
 
   % any matrix in parameters?
   if (any([numel(px),numel(py)] > 1)) || was_cell
-     
+
     % adjust dimensions, i.e. fill missing dimensions with 1
     spx = size(px);
     spy = size(py);
-    
+
     maxdim = max([length(spx),length(spy)]);
     if length(spx) < maxdim
       spx = [spx, ones(1,maxdim-length(spx))];
@@ -106,7 +106,7 @@ function JM = jones_lindiattenuator(varargin)
     JM = cell(maxsize);
     JM_subs = cell(1,ndims(JM));
     numelJM = numel(JM);
-    
+
     % flatten parameter arrays
     px = px(:);
     py = py(:);
@@ -117,7 +117,7 @@ function JM = jones_lindiattenuator(varargin)
       [JM_subs{:}] = ind2sub(size(JM),jmi);
       JM{JM_subs{:}} = s_function(px(mod(jmi-1,numelpx)+1), py(mod(jmi-1,numelpy)+1));
     end
-    
+
   else
 
     JM = s_function(px, py);

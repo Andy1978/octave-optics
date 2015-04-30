@@ -21,7 +21,7 @@
 ##
 ## @itemize @minus
 ## @item @var{V,W,...} define (arrays of) Stokes vectors.
-## The function returns their degrees of polarization as numeric arrays 
+## The function returns their degrees of polarization as numeric arrays
 ## @var{P,Q,...} of corresponding size.
 ## @end itemize
 ##
@@ -31,11 +31,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"}, 
+## @item @url{http://en.wikipedia.org/wiki/Stokes_parameters, "Stokes parameters"},
 ##       last retrieved on Dec 17, 2013.
 ## @end enumerate
 ##
@@ -51,7 +51,7 @@ function varargout = stokes_degpolarization(varargin)
 
   % loop over parameters
   for ni=1:nargin
-      
+
     V = varargin{ni};
     if iscell(V)
       degpolarization = zeros(size(V));
@@ -63,7 +63,7 @@ function varargout = stokes_degpolarization(varargin)
     else
       degpolarization = s_degpolarization(V);
     end
-    
+
     varargout{ni} = degpolarization;
 
   end
@@ -73,12 +73,12 @@ end
 % helper function
 function degpolarization = s_degpolarization(V)
 
-  S13 = V(2:4);    
+  S13 = V(2:4);
   degpolarization = sqrt(S13'*S13)/V(1);
 
 end
 
-%     t = stokes.degpolarization(stokes.unpolarized()+stokes.cpleft()) 
+%     t = stokes.degpolarization(stokes.unpolarized()+stokes.cpleft())
 %     t = 0.5
 
 %!test
@@ -88,7 +88,7 @@ end
 %! r2 = rand(4,3,2);
 %! V2 = stokes_unpolarized(r2);
 %! [d1,d2] = stokes_degpolarization(V1,V2);
-%! assert((size(d1)==size(r1)) && size(size(d2)==size(r2))); 
+%! assert((size(d1)==size(r1)) && size(size(d2)==size(r2)));
 %!
 %!test
 %! % test return values
@@ -97,4 +97,4 @@ end
 %! r2 = rand(1,1);
 %! V2 = stokes_unpolarized(r2);
 %! [d1,d2] = stokes_degpolarization(V1,V2);
-%! assert((d1==r1) && (d2==0)); 
+%! assert((d1==r1) && (d2==0));

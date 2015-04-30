@@ -27,16 +27,16 @@
 ## @item @var{delay} is the retardation delay (default: 0).
 ## @item @var{azimuth} and @var{ellipticity} (default: 0) describe the
 ##       two orthogonal polarization eigenstates.
-## @item @var{delaymode} is a string defining the interpretation of 
+## @item @var{delaymode} is a string defining the interpretation of
 ##       the retardation delay: 'radiants' (default) or 'degree' or
 ##       'wavelength'.
-## @item @var{azimuthmode} is a string defining the interpretation of 
+## @item @var{azimuthmode} is a string defining the interpretation of
 ##       the azimuth angle: 'radiants' (default) or 'degree'.
 ## @end itemize
 ##
 ## Arguments @var{t0}, @var{delay}, @var{azimuth}, or
 ## @var{ellipticity} can be passed as a scalar
-## or as a matrix or as a cell array. In the two latter cases, a cell 
+## or as a matrix or as a cell array. In the two latter cases, a cell
 ## array @var{M} of Mueller matrices is returned. The size of @var{M}
 ## is given by @code{max(size(t0),size(delay),size(azimuth),size(ellipticity))}
 ## and elements of smaller matrices of @var{t0}, @var{delay},
@@ -45,11 +45,11 @@
 ## References:
 ##
 ## @enumerate
-## @item E. Collett, Field Guide to Polarization, 
+## @item E. Collett, Field Guide to Polarization,
 ##       SPIE Field Guides vol. FG05, SPIE (2005). ISBN 0-8194-5868-6.
-## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II, 
+## @item R. A. Chipman, "Polarimetry," chapter 22 in Handbook of Optics II,
 ##       2nd Ed, M. Bass, editor in chief (McGraw-Hill, New York, 1995)
-## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"}, 
+## @item @url{http://en.wikipedia.org/wiki/Mueller_calculus, "Mueller calculus"},
 ##       last retrieved on Dec 17, 2013.
 ## @item Boulvert et al., "Decomposition algorithm of an experimental
 ##       Mueller matrix", Opt.Comm. 282(2009):692-704
@@ -61,7 +61,7 @@
 function M = mueller_homogeneous_elliptic_retarder(varargin)
 
   % TODO: check ref[2] in [3] for decomposition in homogeneous elliptic
-  % retarder und retarder 
+  % retarder und retarder
 
   switch(nargin)
     case 0
@@ -116,9 +116,9 @@ function M = mueller_homogeneous_elliptic_retarder(varargin)
   % convert delay and azimuth angle if necessary
   delaycvt = [];
   azimuthcvt = [];
-  if nargin>=3 
+  if nargin>=3
     if ischar(varargin{end})
-      if ischar(varargin{end-1}) 
+      if ischar(varargin{end-1})
         delaycvt = nargin-1;
         azimuthcvt = nargin;
       else
@@ -148,7 +148,7 @@ function M = mueller_homogeneous_elliptic_retarder(varargin)
     sdelay = size(delay);
     sazimuth = size(azimuth);
     sellipticity = size(ellipticity);
-    
+
     maxdim = max([length(st0),length(sdelay),length(sazimuth),length(sellipticity)]);
     if length(st0) < maxdim
       st0 = [st0, ones(1,maxdim-length(st0))];
@@ -162,12 +162,12 @@ function M = mueller_homogeneous_elliptic_retarder(varargin)
     if length(sellipticity) < maxdim
       sellipticity = [sellipticity, ones(1,maxdim-length(sellipticity))];
     end
-    
+
     % generate Mueller matrices
     maxsize = max([st0;sdelay;sazimuth;sellipticity]);
     M = cell(maxsize);
     M_subs = cell(1,ndims(M));
-    
+
     % flatten parameter arrays
     t0 = t0(:);
     delay = delay(:);
@@ -185,12 +185,12 @@ function M = mueller_homogeneous_elliptic_retarder(varargin)
 						      azimuth(mod(mi-1,numelazimuth)+1), ...
 						      ellipticity(mod(mi-1,numelellipticity)+1));
     end
-    
+
   else
 
     % generate Mueller matrix
     M = s_homogenenous_elliptic_retarder(t0,delay,azimuth,ellipticity);
-    
+
   end
 
 end

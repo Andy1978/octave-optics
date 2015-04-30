@@ -1,4 +1,4 @@
-## Copyright (C) 2012 Andreas Weber <andy.weber.aw@gmail.com>
+## Copyright (C) 2015 Andreas Weber <andy.weber.aw@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -68,3 +68,7 @@ function name = zernike_name (n)
     name = classical_names{n};
   endif
 endfunction
+
+%!assert (zernike_name (4), "defocus")
+%!error (zernike_name (0))
+%!error (zernike_name (pi))

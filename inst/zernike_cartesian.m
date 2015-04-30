@@ -1,4 +1,4 @@
-## Copyright (C) 2012 Andreas Weber <andy.weber.aw@gmail.com>
+## Copyright (C) 2015 Andreas Weber <andy.weber.aw@gmail.com>
 ##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ function Z = zernike_cartesian (x, y, n, limit_r = true)
 endfunction
 
 %!demo
-%! t = linspace (-1, 1, 150);
+%! t = linspace (-1, 1, 80);
 %! [x, y] = meshgrid (t, t);
 %! max_order = 16;
 %! Z = zernike_cartesian (x, y, max_order);
@@ -57,5 +57,6 @@ endfunction
 %!   z = reshape (Z*factors, size (x));
 %!   imagesc (z)
 %!   axis ("off", "equal")
-%!   title (zernike_name (k))
+%!   zname = strrep (zernike_name (k), " ", "\n");
+%!   title (zname)
 %! endfor

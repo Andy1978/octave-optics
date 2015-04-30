@@ -42,7 +42,7 @@ function Z = zernike_cartesian (x, y, n, limit_r = true)
   endif
   r   = sqrt (x.*x + y.*y);
   phi = atan2 (y, x);
-  Z   = zernike_polar (r, phi ,n ,limit_r);
+  Z   = zernike_polar (r, phi, n, limit_r);
 endfunction
 
 %!demo
@@ -60,3 +60,8 @@ endfunction
 %!   zname = strrep (zernike_name (k), " ", "\n");
 %!   title (zname)
 %! endfor
+
+%!assert (zernike_cartesian (0, 0, 1), 1)
+%!error (zernike_cartesian (0, 0, 0))
+%!error (zernike_cartesian (0, 0, pi))
+%!error (zernike_cartesian ())

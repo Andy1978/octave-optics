@@ -53,9 +53,9 @@ function JM = jones_waveplate(varargin)
     phase_in_lambda_units = varargin{1};
   end
 
-  phase_in_lambda_units = __c2n__(phase_in_lambda_units, pilu_defv);
+  [phase_in_lambda_units, was_cell] = __c2n__(phase_in_lambda_units, pilu_defv);
 
-  if numel(phase_in_lambda_units) > 1
+  if (numel(phase_in_lambda_units) > 1 || was_cell)
      
     JM = cell(size(phase_in_lambda_units));
     JM_subs = cell(1,ndims(JM));
@@ -111,7 +111,7 @@ end
 %!   asize = randi([1 4], 1, dim);
 %!   R = rand(asize);
 %!   if numel(R) == 1
-%!     R = {R}
+%!     R = {R};
 %!   end
 %!   rsize = size(R);
 %!   C = jones_waveplate(R);

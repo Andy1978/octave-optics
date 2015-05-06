@@ -48,6 +48,7 @@ $(HTML_DIR): install
 	$(OCTAVE) --silent \
 	  --eval "pkg load generate_html; " \
 	  --eval "pkg load $(PACKAGE);" \
+	  --eval "graphics_toolkit gnuplot;" \
 	  --eval 'generate_package_html ("${PACKAGE}", "$@", "octave-forge");'
 	chmod -R a+rX,u+w,go-w $@
 

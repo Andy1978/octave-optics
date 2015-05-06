@@ -15,7 +15,7 @@
 
 ## -*- texinfo -*-
 ## @deftypefn {Function File} {@var{rout} = } trace(@var{abcd}, @var{rin}, @var{do_plot})
-## Trace the rays @var{rin] through @var{abcd}.
+## Trace the rays @var{rin} through @var{abcd}.
 ## If @var{do_plot} is true, create also a plot with the trace.
 ## @end deftypefn
 

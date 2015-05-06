@@ -60,7 +60,7 @@ function name = zernike_name (n)
   if (nargin != 1)
     print_usage ();
   elseif (! isscalar (n) || n < 1 || n != fix (n))
-    error ("zernike_name: n must be a integer >=1");
+    error ("zernike_name: n must be a scalar integer >= 1");
   endif
   if (n > numel (classical_names))
     name = "-";
@@ -70,5 +70,7 @@ function name = zernike_name (n)
 endfunction
 
 %!assert (zernike_name (4), "defocus")
+%!assert (zernike_name (22), "-")
 %!error (zernike_name (0))
+%!error (zernike_name ([1 2]))
 %!error (zernike_name (pi))

@@ -1,0 +1,2 @@
+* A common API (at least on the image package), is to either plot stuff
+  or return depending on nargout (instead of using a plot_flag)

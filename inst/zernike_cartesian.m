@@ -61,6 +61,28 @@ endfunction
 %!   title (zname)
 %! endfor
 
+%!demo
+%! n=30;
+%! [x,y,z] = sombrero (n);
+%! z += 0.05 * peaks (x./4, y./4);
+%! z += 0.02 * x;
+%! figure
+%! surf (x, y, z)
+%! title ("Original sombrero + peaks + tilt");
+%! 
+%! ## approximate sombrero+peaks
+%! d = 10;
+%! x /= d;
+%! y /= d;
+%! max_order = 50;
+%! Z = zernike_cartesian (x, y, max_order, false);
+%! f = Z\z(:);
+%! ## create approximated plot
+%! z_approx = reshape (Z * f, n, n);
+%! figure
+%! surf (10 * x, 10 * y, z_approx)
+%! title ("approximated");
+
 %!assert (zernike_cartesian (0, 0, 1), 1)
 %!error (zernike_cartesian (0, 0, 0))
 %!error (zernike_cartesian (0, 0, pi))

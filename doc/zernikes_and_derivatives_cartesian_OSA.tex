@@ -1,0 +1,356 @@
+%% LyX 2.3.3 created this file.  For more info, see http://www.lyx.org/.
+%% Do not edit unless you really know what you are doing.
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage[a4paper]{geometry}
+\geometry{verbose,tmargin=2.5cm,bmargin=2.5cm,lmargin=2.5cm,rmargin=2.5cm}
+\usepackage{color}
+\usepackage{babel}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 0},pdfborderstyle={},backref=false,colorlinks=true]
+ {hyperref}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+\makeatother
+
+\begin{document}
+\title{Calculation of the Zernike polynomials and their partial derivatives
+in Cartesian coordinates using the standard indexes OSA/ANSI.}
+\author{José Ramom Flores das Seixas}
+\date{August 4, 2019}
+
+\maketitle
+\tableofcontents{}
+
+\section{Introduction}
+
+The \texttt{zernikes\_and\_derivatives\_cartesian\_OSA} function calculates
+the Zernike polynomials and their partial derivatives in Cartesian
+coordinates. For this purpose, it uses the algorithm described in
+reference \cite{Andersen_2018}. However, it should be noted that
+in the cited article the author use unit-normalized Zernike polynomials
+arranged according to the azimuthal scheme set forth by Rimmer and
+Wyant \cite{Rimmer=000026Wyant_1975}, while to implement the function
+has been used the OSA/ANSI standard notation described in references
+\cite{Thibos_et_al_2002,ANSI-2017}. This means the index scheme is
+different and, moreover, the polynomials are not unit-normalized but
+normalized to $\pi$.
+
+\section{Notation}
+
+Zernike's polynomials are usually ordered by a double-index, $Z_{n}^{m}$,
+being $n$ the radial order and $m$ the angular frequency, both integers.
+Although in programming it is usually utilized a single index, $Z_{j}$.
+
+The scheme used in reference \cite{Andersen_2018}, consider a double-index
+with $n\geq0$ and $0\leq m\leq n$. However, the standard OSA/ANSI\footnote{In fact, this double index schema is the most usual, and is employed
+by other notations than the standard OSA/ANSI.} uses a double-index with $n\geq0$ and $-n\leq m\leq n$, as shown
+in the following table:
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|c|>{\centering}p{3cm}|}
+\multicolumn{2}{|c|}{Rimmer\&Wyant schema} &  & \multicolumn{2}{c|}{~~~~OSA standard~~~~}\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+$\tilde{n}$ & $\tilde{m}$ &  & $n$ & $m$\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+0 & 0 &  & 0 & 0\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+1 & 0, 1 &  & 1 & -1, 1\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+2 & 0, 1, 2 &  & 2 & -2, 0, 2\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+3 & 0, 1, 2, 3 &  & 3 & -3, -1, 1, 3\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+4 & 0, 1, 2, 3, 4 &  & 4 & -4, -2, 0, 2, 4\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+$\vdots$ & $\vdots$ &  & $\vdots$ & $\vdots$\tabularnewline
+\cline{1-2} \cline{2-2} \cline{4-5} \cline{5-5} 
+\end{tabular}
+\par\end{center}
+
+Therefore, by the way of example, the following polynomials --using
+the two schemes seen-- are equivalent:
+\noindent \begin{center}
+\begin{tabular}{ccc}
+Rimmer\&Wyant schema &  & ~~~~OSA standard~~~~\tabularnewline
+\cline{1-1} \cline{3-3} 
+$Z_{1}^{0}\left(x,y\right)$ & ~~~~ & $Z_{1}^{-1}\left(x,y\right)$\tabularnewline
+$Z_{3}^{0}\left(x,y\right)$ &  & $Z_{3}^{-3}\left(x,y\right)$\tabularnewline
+$Z_{3}^{1}\left(x,y\right)$ &  & $Z_{3}^{-1}\left(x,y\right)$\tabularnewline
+$Z_{4}^{4}\left(x,y\right)$ &  & $Z_{4}^{4}\left(x,y\right)$\tabularnewline
+$Z_{8}^{6}\left(x,y\right)$ &  & $Z_{8}^{4}\left(x,y\right)$\tabularnewline
+\end{tabular}
+\par\end{center}
+
+Using $\left(\tilde{n},\tilde{m}\right)$ to denote the R\&W indices,
+and $\left(n,m\right)$ those of the OSA scheme, both pairs of indices
+are related as follow:
+\begin{equation}
+n=\tilde{n}\qquad m=2\cdot\tilde{m}-\tilde{n}\label{eq:R=000026W_to_OSA}
+\end{equation}
+
+
+\subsection{Single index}
+
+As said before, it is more convenient to use a simple index to program.
+In the OSA standard, the conversion of indices is \href{https://en.wikipedia.org/wiki/Zernike_polynomials\#OSA/ANSI_standard_indices}{as follows}:
+\[
+j=\frac{n\left(n+2\right)+m}{2}\qquad\begin{array}{l}
+n=roundup\left[\dfrac{-3+\sqrt{9+8\,j}}{2}\right]\\
+\\
+m=2\,j-n\left(n+2\right)
+\end{array}
+\]
+
+
+\subsection{U-polynomials}
+
+Employing the notation used in reference \cite{Andersen_2018}, the
+unit-normalized Zernike's polynomials are called $U_{nm}$, and are
+related to the $\pi$-normalized ones as follows:
+\[
+Z_{n}^{m}\left(x,y\right)=N_{nm}\cdot U_{nm}\left(x,y\right)
+\]
+ with
+\[
+N_{nm}=\sqrt{\frac{2\left(n+1\right)}{1+\delta_{m0}}}\qquad\textrm{being}\quad\delta_{m0}=\left\{ \begin{array}{ll}
+1 & m=0\\
+0 & m\neq0
+\end{array}\right.
+\]
+
+
+\section{Algorithm}
+
+It is well known that for high-order Zernike's polynomials, computing
+the values using explicit expressions is not the best strategy, since
+it is inefficient and suffers form large cancellation errors. So,
+several schemes using recurrence relations have been devised.
+
+Reference \cite{Andersen_2018} presents one recurrence relation with
+coefficients that do not depend on radial or azimuthal orders and
+which contains no singularities. In addition, it also presents a recurrence
+relation to compute the partial derivatives in Cartesian coordinates.
+
+\subsection{Recurrence relations in Cartesian coordinates for Zernike U-polynomials}
+
+The general recurrence relation is
+\[
+U_{\tilde{n},\tilde{m}}=xU_{\tilde{n}-1,\tilde{m}}+yU_{\tilde{n}-1,\tilde{n}-1-\tilde{m}}+xU_{\tilde{n}-1,\tilde{m}-1}-yU_{\tilde{n}-1,\tilde{n}-\tilde{m}}-U_{\tilde{n}-2,\tilde{m}-1}
+\]
+But there are several exceptions:
+\begin{itemize}
+\item for $\tilde{m}=0$$\qquad U_{\tilde{n},0}=xU_{\tilde{n}-1,0}+yU_{\tilde{n}-1,\tilde{n}-1}$
+\item for $\tilde{m}=\tilde{n}$$\qquad U_{\tilde{n},\tilde{n}}=xU_{\tilde{n}-1,\tilde{n}-1}-yU_{\tilde{n}-1,0}$
+\item for $\tilde{n}$ odd and $\tilde{m}=\dfrac{\tilde{n}-1}{2}$
+\[
+U_{\tilde{n},\tilde{m}}=yU_{\tilde{n}-1,\tilde{n}-1-\tilde{m}}+xU_{\tilde{n}-1,\tilde{m}-1}-yU_{\tilde{n}-1,\tilde{n}-\tilde{m}}-U_{\tilde{n}-2,\tilde{m}-1}
+\]
+\item for $\tilde{n}$ odd and $\tilde{m}=\dfrac{\tilde{n}-1}{2}+1$
+\[
+U_{\tilde{n},\tilde{m}}=xU_{\tilde{n}-1,\tilde{m}}+yU_{\tilde{n}-1,\tilde{n}-1-\tilde{m}}+yU_{\tilde{n}-1,\tilde{m}-1}-U_{\tilde{n}-2,\tilde{m}-1}
+\]
+\item for $\tilde{n}$ even and $\tilde{m}=\dfrac{\tilde{n}}{2}$
+\[
+U_{\tilde{n},\tilde{m}}=2xU_{\tilde{n}-1,\tilde{m}}+2yU_{\tilde{n}-1,\tilde{m}-1}-U_{\tilde{n}-2,\tilde{m}-1}
+\]
+\end{itemize}
+The starting polynomials being
+\[
+U_{0,0}=1,\quad U_{1,0}=y,\quad U_{1,1}=x\quad.
+\]
+
+
+\subsection{Recurrence relations for the OSA/ANSI scheme}
+
+If we now ``translate'' the previous equations into the OSA scheme,
+we obtain that the general recurrence relation is
+\[
+U_{n.m}=xU_{n-1,m+1}+yU_{n-1,-\left(m+1\right)}+xU_{n-1,m-1}-yU_{n-1,1-m}-U_{n-2,m}
+\]
+the exceptions are given by
+\begin{itemize}
+\item for $m=-n$$\qquad U_{n,-n}=xU_{n-1,1-n}+yU_{n-1,n-1}$
+\item for $m=n$$\qquad U_{n,n}=xU_{n-1,n-1}-yU_{n-1,1-n}$
+\item for $m=-1$$\qquad U_{n,-1}=yU_{n-1,0}+xU_{n-1,-2}-yU_{n-1,2}-U_{n-2,-1}$
+\item for $m=1$$\qquad U_{n,1}=xU_{n-1,2}+yU_{n-1,-2}+xU_{n-1,0}-U_{n-2,1}$
+\item for $m=0$$\qquad U_{n,0}=2xU_{n-1,1}+2yU_{n-1,-1}-U_{n-2,0}$
+\end{itemize}
+and the starting polynomials are
+\[
+U_{0,0}=1,\quad U_{1,-1}=y\quad U_{1,1}=x\quad.
+\]
+
+Note that using the OSA scheme the conditions of the exceptions have
+been simplified, which makes it easier to compute.
+
+\subsubsection{Recurrence relations with a single index}
+
+As mentioned earlier, when programming it is more convenient to use
+a simple index. In this case, recurrence relations are given as follows.
+Let us start now with the exceptions:
+\begin{itemize}
+\item for $m=-n\quad\Rightarrow\quad j=\dfrac{\left(n+1\right)n}{n}$
+\[
+U_{j}=xU_{j-n}+yU_{j-1}
+\]
+\item for $m=n\quad\Rightarrow\quad j=\dfrac{n\left(n+3\right)}{2}$
+\[
+U_{j}=xU_{j-\left(n+1\right)}-yU_{j-2n}
+\]
+\item for $m=-1\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)-1}{2}$
+\[
+U_{j}=xU_{j-\left(n+1\right)}+yU_{j-n}-yU_{j-\left(n-1\right)}-U_{j-2n}
+\]
+\item for $m=1\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)+1}{2}$
+\[
+U_{j}=xU_{j-n}+xU_{j-\left(n+1\right)}+yU_{j-\left(n+2\right)}-U_{j-2n}
+\]
+\item for $m=0\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)}{2}$
+\[
+U_{j}=2xU_{j-n}+2yU_{j-\left(n+1\right)}-U_{j-2n}\,.
+\]
+\end{itemize}
+The general case is
+\[
+U_{j}=xU_{j-n}+yU_{j-\left(n+m+1\right)}+xU_{j-\left(n+1\right)}-yU_{j-\left(m+m\right)}-U_{j-2n}
+\]
+and the starting polynomials are
+\[
+U_{0}=1,\quad U_{1}=y,\quad U_{2}=x\quad.
+\]
+
+
+\subsection{Recurrence relations for Cartesian derivatives for Zernike U-polynomials}
+
+The general recursive relations for partial derivatives are:
+\[
+\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial x}=\tilde{n}U_{\tilde{n}-1,\tilde{m}}+\tilde{n}U_{\tilde{n}-1,\tilde{m}-1}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial x}
+\]
+and
+\[
+\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial y}=\tilde{n}U_{\tilde{n}-1}-\tilde{n}U_{\tilde{n}-1,\tilde{n}-\tilde{m}}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial y}
+\]
+But, as before, there are several exceptions:
+\begin{itemize}
+\item for $\tilde{m}=0$
+\[
+\frac{\partial U_{\tilde{n},0}}{\partial x}=\tilde{n}U_{\tilde{n}-1,0}\qquad\frac{\partial U_{\tilde{n},0}}{\partial y}=\tilde{n}U_{\tilde{n}-1,\tilde{n}-1}
+\]
+\item for $\tilde{m}=\tilde{n}$
+\[
+\frac{\partial U_{\tilde{n},\tilde{n}}}{\partial x}=-\tilde{n}U_{\tilde{n}-1,\tilde{n}-1}\qquad\frac{\partial U_{\tilde{n},\tilde{n}}}{\partial y}=-\tilde{n}U_{\tilde{n}-1,0}
+\]
+\item for $\tilde{n}$ odd and $\tilde{m}=\dfrac{\tilde{n}-1}{2}$
+\[
+\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial x}=\tilde{n}U_{\tilde{n}-1,\tilde{m}-1}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial x}\qquad\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial y}=\tilde{n}U_{\tilde{n}-1,\tilde{n}-\tilde{m}-1}-\tilde{n}U_{\tilde{n}-1,\tilde{n}-\tilde{m}}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial y}
+\]
+\item for $\tilde{n}$ odd and $\tilde{m}=\dfrac{\tilde{n}-1}{2}+1$
+\[
+\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial x}=\tilde{n}U_{\tilde{n}-1,\tilde{m}}+\tilde{n}U_{\tilde{n}-1,\tilde{m}-1}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial x}\qquad\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial y}=\tilde{n}U_{\tilde{n}-1,\tilde{n}-\tilde{m}-1}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial y}
+\]
+\item for $\tilde{n}$ even and $\tilde{m}=\dfrac{\tilde{n}}{2}$
+\[
+\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial x}=2\tilde{n}U_{\tilde{n}-1,\tilde{m}}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial x}\qquad\frac{\partial U_{\tilde{n},\tilde{m}}}{\partial y}=2\tilde{n}U_{\tilde{n}-1,\tilde{n}-\tilde{m}-1}+\frac{\partial U_{\tilde{n}-2,\tilde{m}-1}}{\partial y}
+\]
+\end{itemize}
+The starting expressions for the Cartesian derivatives being:
+\[
+\frac{\partial U_{0,0}}{\partial x}=\frac{\partial U_{0,0}}{\partial y}=0,\quad\frac{\partial U_{1,0}}{\partial x}=\frac{\partial U_{1,1}}{\partial y}=0,\quad\frac{\partial U_{1,1}}{\partial x}=\frac{\partial U_{1,0}}{\partial y}=1
+\]
+
+
+\subsubsection{Recurrence relations for the OSA/ANSI scheme}
+
+If we now ``translate'' the previous equations into the OSA scheme,
+we obtain that the general recurrence relations for partial derivativess
+are
+\[
+\frac{\partial U_{n,m}}{\partial x}=nU_{n-1,m+1}+nU_{n-1,m-1}+\frac{\partial U_{n-2,m}}{\partial x}
+\]
+and
+\[
+\frac{\partial U_{n,m}}{\partial y}=nU_{n-1,-\left(m+1\right)}-nU_{n-1,1-m}+\frac{\partial U_{n-2,m}}{\partial y}
+\]
+the exceptions are give by
+\begin{itemize}
+\item for $m=-n$$\qquad\dfrac{\partial U_{n,-n}}{\partial x}=nU_{n-1,1-n}\qquad\dfrac{\partial U_{n,-n}}{\partial y}=nU_{n-1,n-1}$
+\item for $m=n$$\qquad\dfrac{\partial U_{n,-n}}{\partial x}=nU_{n-1,n-1}\qquad\dfrac{\partial U_{n,-n}}{\partial y}=-nU_{n-1,1-n}$
+\item for $m=-1$
+\[
+\dfrac{\partial U_{n,-1}}{\partial x}=nU_{n-1,-2}+\dfrac{\partial U_{n-2,-1}}{\partial x}\qquad\dfrac{\partial U_{n,-1}}{\partial y}=nU_{n-1,0}-nU_{n-1,2}+\dfrac{\partial U_{n-2,-1}}{\partial y}
+\]
+\item for $m=1$
+\[
+\dfrac{\partial U_{n,1}}{\partial x}=nU_{n-1,2}+nU_{n-1,0}+\dfrac{\partial U_{n-2,1}}{\partial x}\qquad\dfrac{\partial U_{n,1}}{\partial y}=nU_{n-1,-2}+\dfrac{\partial U_{n-2,1}}{\partial y}
+\]
+\item for $m=0$
+\[
+\dfrac{\partial U_{n,0}}{\partial x}=2nU_{n-1,1}+\dfrac{\partial U_{n-2,0}}{\partial x}\qquad\dfrac{\partial U_{n,0}}{\partial y}=2nU_{n-1,-1}+\dfrac{\partial U_{n-2,0}}{\partial y}
+\]
+\end{itemize}
+and the starting derivatives are
+\[
+\frac{\partial U_{0,0}}{\partial x}=\frac{\partial U_{0,0}}{\partial y}=0,\quad\frac{\partial U_{1,-1}}{\partial x}=\frac{\partial U_{1,1}}{\partial y}=0,\quad\frac{\partial U_{1,1}}{\partial x}=\frac{\partial U_{1,-1}}{\partial y}=1
+\]
+
+
+\subsubsection{Recurrence relations with a single index}
+
+Let us start now with the exceptions:
+\begin{itemize}
+\item for $m=-n\quad\Rightarrow\quad j=\dfrac{\left(n+1\right)n}{n}$
+\[
+\frac{\partial U_{j}}{\partial x}=nU_{j-n}\qquad\frac{\partial U_{j}}{\partial y}=nU_{j-1}
+\]
+\item for $m=n\quad\Rightarrow\quad j=\dfrac{n\left(n+3\right)}{2}$
+\[
+\frac{\partial U_{j}}{\partial x}=nU_{j-\left(n+1\right)}\qquad\frac{\partial U_{j}}{\partial y}=-nU_{j-2n}
+\]
+\item for $m=-1\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)-1}{2}$
+\[
+\frac{\partial U_{j}}{\partial x}=nU_{j-\left(n+1\right)}+\frac{\partial U_{j-2n}}{\partial x}\qquad\frac{\partial U_{j}}{\partial y}=nU_{j-n}-nU_{j-\left(n-1\right)}+\frac{\partial U_{j-2n}}{\partial y}
+\]
+\item for $m=1\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)+1}{2}$
+\[
+\frac{\partial U_{j}}{\partial x}=nU_{j-n}+nU_{j-\left(n+1\right)}+\frac{\partial U_{j-2n}}{\partial x}\qquad\frac{\partial U_{j}}{\partial y}=nU_{j-\left(n+2\right)}+\frac{\partial U_{j-2n}}{\partial y}
+\]
+\item for $m=0\quad\Rightarrow\quad j=\dfrac{n\left(n+2\right)}{2}$
+\[
+\frac{\partial U_{j}}{\partial x}=2nU_{j-n}+\frac{\partial U_{j-2n}}{\partial x}\qquad\frac{\partial U_{j}}{\partial y}=2nU_{j-\left(n+1\right)}+\frac{\partial U_{j-2n}}{\partial y}
+\]
+\end{itemize}
+The general case is
+\[
+\frac{\partial U_{j}}{\partial x}=nU_{j-n}+nU_{j-\left(n+1\right)}+\frac{\partial U_{j-2n}}{\partial x}\qquad\frac{\partial U_{j}}{\partial y}=nU_{j-\left(n+m+1\right)}-nU_{j-\left(n+m\right)}+\frac{\partial U_{j-2n}}{\partial y}
+\]
+and the starting derivatives are
+
+\[
+\frac{\partial U_{0}}{\partial x}=\frac{\partial U_{0}}{\partial y}=0,\quad\frac{\partial U_{1}}{\partial x}=\frac{\partial U_{2}}{\partial y}=0,\quad\frac{\partial U_{2}}{\partial x}=\frac{\partial U_{1}}{\partial y}=1
+\]
+
+\begin{thebibliography}{1}
+\bibitem{Andersen_2018}Andersen T.B., \href{https://doi.org/10.1364/OE.26.018878}{Efficient and robust recurrence relations for the Zernike circle polynomials and their derivatives in Cartesian coordinates}.
+\emph{Optic Express 26}(15), 18878-18896 (2018).
+
+\bibitem{Rimmer=000026Wyant_1975}Rimmer M.P. \& Wyant J.C., \href{https://wp.optics.arizona.edu/jcwyant/wp-content/uploads/sites/13/2016/08/LSI-Analysis.pdf}{Evaluation of large aberrations using a lateral-shear interferometer having variable shear}.
+\emph{Appl. Opt. 14}(1), 142--150 (1975).
+
+\bibitem{Thibos_et_al_2002}Thibos, L.N, Applegate, R.A., Schwiegerling,
+J.T. \& Webb, R., \href{https://pdfs.semanticscholar.org/6e71/c63afa9960dc6e452f3ae2c8b20e2185ba88.pdf}{Standards for reporting the optical aberrations of eyes}.
+\emph{Journal of refractive surgery}, \emph{18}(5), S652-S660 (2002).
+
+\bibitem{ANSI-2017}ANSI Z80.28--2017. American National Standards
+of Ophthalmics:methods for reporting optical aberrations of eyes.
+\end{thebibliography}
+
+\end{document}

@@ -54,3 +54,5 @@ Zernike polynomials
  zernike_noll_to_mn
  zernike_polar
  zernike_R_poly
+ zernike_osa_ansi_to_mn
+ zernikes_and_derivatives_cartesian_OSA

@@ -64,7 +64,6 @@
 ##
 ## Run the demo to see a more complete example.
 ##
-
 ##
 ## Size of @var{x} must be equal size of @var{y}.
 ##

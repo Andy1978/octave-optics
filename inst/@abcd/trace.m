@@ -30,6 +30,7 @@ function rout = trace (abcd, rin, do_plot = false)
   y(1, :) = rin (1, :);
 
   k = 1;
+  plot_elements = [];
   while (numel(e) > 0)
 
     k += 1;
@@ -42,7 +43,6 @@ function rout = trace (abcd, rin, do_plot = false)
       case {"thin-lens"}
         f = e{2};
         tmp = [1, 0; -1/f, 1];
-
         plot_elements(end + 1).x = x_tmp;
         plot_elements(end).text = sprintf ("thin lens\nf = %.2f", f);
 
